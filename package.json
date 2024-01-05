@@ -1,0 +1,59 @@
+{
+  "name": "iql-core",
+  "version": "0.0.1",
+  "description": "Interface Query Language",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "jest --config jest.config.js -u",
+    "publish": "npm publish"
+  },
+  "author": "Vincent Ostermann",
+  "license": "ISC",
+  "languageName": "node",
+  "packageManager": "yarn@4.0.2",
+  "os": [
+    "linux",
+    "darwin"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  },
+  "release-it": {
+    "git": {
+      "tagName": "v${version}",
+      "requireCleanWorkingDir": false,
+      "requireUpstream": false
+    },
+    "npm": {
+      "publish": false
+    }
+  },
+  "engines": {
+    "node": "18.16.0",
+    "yarn": "4.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dmpvost/iql-core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dmpvost/iql-core/issues"
+  },
+  "homepage": "https://github.com/dmpvost/iql-core#readme",
+  "devDependencies": {
+    "prettier": "^3.1.1",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "cloudevents": "^8.0.0",
+    "ulid": "^2.3.0"
+  }
+}
