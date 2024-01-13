@@ -44,8 +44,7 @@ export enum ResponseTypeIQL {
 }
 
 
-export interface NetworkIQL<EventIQL extends string
-    , DataIQL, Request, Response> extends CloudEventV1<DataIQL> {
+export interface EventIQL<Event extends string, DataIQL> extends CloudEventV1<DataIQL> {
     /**
      * [REQUIRED] Identifies the event. Producers MUST ensure that `source` + `id`
      * is unique for each distinct event. If a duplicate event is re-sent (e.g. due
@@ -106,7 +105,7 @@ export interface NetworkIQL<EventIQL extends string
      * @example "https://example.com/storage/tenant/container"
      * @example "mynewfile.jpg"
      */
-    subject: EventIQL;
+    subject: Event;
     /**
      * Data content type
      */

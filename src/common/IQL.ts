@@ -1,14 +1,9 @@
 /**
  * IQ, an innovative protocol for backend development in Express, is designed to simplify and standardize the handling of requests and responses in applications that use both REST and SOCKET networks. It acts as a "data router", processing and modifying requests before redirecting them. Each instance of IQ is treated as a unique packet, encapsulating request and response data.
  */
-import {ErrorType, HttpCode, Localized} from "./models";
+import {ErrorType, Localized} from "./models";
 
 export interface RequestIQL<EventIQL, Request> {
-    /**
-     * Unique Event name for Controller destination
-     * exemple: route: AuthLogin
-     */
-    event: EventIQL;
     /**
      * client API version
      */
@@ -17,6 +12,10 @@ export interface RequestIQL<EventIQL, Request> {
      * Request data
      */
     request: Request; // search
+    /**
+     * Source origin of the request
+     */
+    source?: string // ID of the user
 }
 
 
@@ -24,14 +23,6 @@ export interface RequestIQL<EventIQL, Request> {
  * IQ, an innovative protocol for backend development in Express, is designed to simplify and standardize the handling of requests and responses in applications that use both REST and SOCKET networks. It acts as a "data router", processing and modifying requests before redirecting them. Each instance of IQ is treated as a unique packet, encapsulating request and response data.
  */
 export interface ResponseIQL<EventIQL, Request, Response> extends RequestIQL<EventIQL, Request> {
-    /**
-     * Status of the IQ
-     */
-    success: boolean;
-    /**
-     * Http Status
-     */
-    status: HttpCode;
     /**
      * Response message for developper
      */
