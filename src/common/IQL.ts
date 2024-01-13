@@ -3,7 +3,7 @@
  */
 import {ErrorType, Localized} from "./models";
 
-export interface RequestIQL<EventIQL, Request> {
+export interface RequestIQL<Request> {
     /**
      * client API version
      */
@@ -22,7 +22,7 @@ export interface RequestIQL<EventIQL, Request> {
 /**
  * IQ, an innovative protocol for backend development in Express, is designed to simplify and standardize the handling of requests and responses in applications that use both REST and SOCKET networks. It acts as a "data router", processing and modifying requests before redirecting them. Each instance of IQ is treated as a unique packet, encapsulating request and response data.
  */
-export interface ResponseIQL<EventIQL, Request, Response> extends RequestIQL<EventIQL, Request> {
+export interface ResponseIQL<Request, Response> extends RequestIQL<Request> {
     /**
      * Response message for developper
      */
