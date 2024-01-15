@@ -30,15 +30,15 @@ export interface ResponseIQL<Request, Response> extends RequestIQL<Request,Respo
     /**
      * Response message for developper
      */
-    message: string | null;
+    message: string;
     /**
      * Translation message to display to the user
      */
-    translations?: Localized | null;
+    translations?: Localized;
     /**
      * Response data
      */
-    response?: Response | null;
+    response: Response;
     /**
      * Extra information of error
      */

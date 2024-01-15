@@ -70,9 +70,11 @@ export class ResponseIQLClass<Event extends string, Request, Response>
         super(iq);
         this.data.success = false;
         this.data.status = 500;
-        this.data.message = null;
-        this.data.translations = null;
-        this.data.response = null;
+        this.data.message = "";
+        this.data.translations = {
+            code: MessageCodes.ERROR.code,
+            messages: MessageCodes.ERROR.translations,
+        };
     }
 
 
