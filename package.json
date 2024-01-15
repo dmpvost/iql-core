@@ -1,6 +1,6 @@
 {
   "name": "iql-core",
-  "version": "0.0.1",
+  "version": "0.0.13",
   "description": "Interface Query Language",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc -p .",
+    "build": "rm -rf dist && tsc -p .",
     "test": "jest --config jest.config.js -u",
     "publish": "npm publish"
   },

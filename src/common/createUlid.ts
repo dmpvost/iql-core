@@ -4,4 +4,4 @@ const ulid = ulidFactory(detectPrng(true));
 
 export function createUlid(): string {
     return ulid();
-};
+}

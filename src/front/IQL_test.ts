@@ -1,8 +1,8 @@
-import {EventIQL} from "../common/NetworkIQL";
+import {EventIQL} from "../common/EventIQL";
 import {RequestIQL, ResponseIQL} from "../common/IQL";
 
 
-export type LoginRequest = {
+type LoginRequest = {
     /**
      * @format email
      * @pattern ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$
@@ -16,7 +16,7 @@ export type LoginRequest = {
      */
     password: string;
 };
-export type LoginResponse = {
+type LoginResponse = {
     /**
      * accessToken for authentification
      */
@@ -27,8 +27,8 @@ export type LoginResponse = {
     refreshToken: string;
 };
 
-export type LoginRequestIQL = EventIQL<"AUTH_LOGIN_REQUEST", RequestIQL<LoginRequest>>;
+type LoginRequestIQL = EventIQL<"AUTH_LOGIN_REQUEST", RequestIQL<LoginRequest, LoginResponse>>;
 
-export type LoginResponseIQL = EventIQL<"AUTH_LOGIN_RESPONSE", ResponseIQL<LoginRequest, LoginResponse>>;
+type LoginResponseIQL = EventIQL<"AUTH_LOGIN_RESPONSE", ResponseIQL<LoginRequest, LoginResponse>>;
 
 

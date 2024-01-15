@@ -1,151 +1,124 @@
-import {NetworkIQL, NetworkOrigin, ResponseTypeIQL} from "../common/NetworkIQL";
-import {MessageCodes} from "../common/MessageCodes";
-import {ErrorType, HttpCode, Localized, LocalizeError} from "../common/models";
+import {EventIQL, NetworkOrigin, ResponseTypeIQL} from "../common/EventIQL";
 import {RequestIQL, ResponseIQL} from "../common/IQL";
+import {ErrorType, LocalizeError} from "../common/models";
+import {MessageCodes} from "../common/MessageCodes";
 
-export class NetworkIQLClass<EventIQL extends string
-    , DataIQL, Request, Response> implements NetworkIQL<EventIQL
-    , DataIQL, Request, Response> {
-
-    datacontenttype: "application/json";
-    dataschema: string;
+// @ts-ignore: IGNORE: [key: string]: unknown;
+export class EventIQLClass<Event extends string, DataIQL> implements EventIQL<Event, DataIQL> {
     id: string;
     source: NetworkOrigin;
-    specversion: "1.0";
-    subject: EventIQL;
     type: ResponseTypeIQL;
+    data: DataIQL;
+    datacontenttype: "application/json";
+    dataschema?: string;
+    specversion: "1.0";
+    subject: Event;
+    time?: string | undefined;
+    data_base64?: unknown;
 
-    [key: string]: unknown;
-
-    data?: ResponseIQLClass<EventIQL, Request, Response>;
-    data_base64?: string;
-    time?: string;
-
-
-    constructor(iq: NetworkIQL<EventIQL, DataIQL, Request, Response>) {
+    constructor(iq: EventIQL<Event, DataIQL>) {
+        this.datacontenttype = iq.datacontenttype;
+        this.dataschema = iq?.dataschema;
         this.id = iq.id;
         this.source = iq.source;
         this.specversion = iq.specversion;
         this.subject = iq.subject;
         this.type = iq.type;
-        this.dataschema = iq.dataschema;
-        this.datacontenttype = iq.datacontenttype;
-        this.data = new ResponseIQLClass(iq.data);
-        this.time = iq?.time;
-        this.data_base64 = iq?.data_base64;
+        this.data = iq.data as DataIQL;
+        this.time = iq.time;
+        this.data_base64 = iq.data_base64;
     }
-
 }
 
 
-export class RequestIQLClass<EventIQL, Request> {
-    /**
-     * Unique Event name for Controller destination
-     * exemple: route: AuthLogin
-     */
-    event: EventIQL;
-    /**
-     * client API version
-     */
-    version?: string; // version of the FRONT app
-    /**
-     * Request data
-     */
-    request: Request; // search
+export class RequestIQLClass<Event extends string, Request, Response>
+    extends EventIQLClass<Event, ResponseIQL<Request, Response>> {
 
-    constructor(iq: RequestIQL<EventIQL, Request>) {
-        this.event = iq.event;
-        this.version = iq.version;
-        this.request = iq.request;
+    constructor(iq: EventIQL<Event, RequestIQL<Request, Response>>) {
+        super(iq as unknown as EventIQL<Event, ResponseIQL<Request, Response>>);
     }
 
-    public getReponseIQL(): ResponseIQL<EventIQL, Request, Response> {
+    public getResponseIQL(): ResponseIQLClass<Event, Request, Response> {
+        // @ts-ignore: IGNORE: [key: string]: unknown;
         return new ResponseIQLClass(this);
     }
 
+    public getIql(): EventIQL<Event, RequestIQL<Request, Response>> {
+        let iq = {
+            id: this.id,
+            source: this.source,
+            type: this.type,
+            data: this.data,
+            datacontenttype: this.datacontenttype,
+            dataschema: this.dataschema,
+            specversion: this.specversion,
+            subject: this.subject,
+            time: this.time,
+            data_base64: this.data_base64
+        };
+        return iq;
+    }
 }
 
 /**
  * IQ, an innovative protocol for backend development in Express, is designed to simplify and standardize the handling of requests and responses in applications that use both REST and SOCKET networks. It acts as a "data router", processing and modifying requests before redirecting them. Each instance of IQ is treated as a unique packet, encapsulating request and response data.
  */
-export class ResponseIQLClass<EventIQL, Request, Response> extends RequestIQLClass<EventIQL, Request> {
+export class ResponseIQLClass<Event extends string, Request, Response>
+    extends RequestIQLClass<Event, Request, Response> {
 
-    /**
-     * Status of the IQ
-     */
-    success: boolean;
-    /**
-     * Http Status
-     */
-    status: HttpCode;
-    /**
-     * Response message for developper
-     */
-    message: string | null;
-    /**
-     * Translation message to display to the user
-     */
-    translations?: Localized | null;
-    /**
-     * Response data
-     */
-    response?: Response | null;
-    /**
-     * Extra information of error
-     */
-    error?: {
-        /**
-         * Error type
-         */
-        type: ErrorType,
-        /**
-         * Any error
-         */
-        data?: any,
-    };
-
-
-    constructor(iq: RequestIQL<EventIQL, Request>) {
+    constructor(iq: EventIQL<Event, ResponseIQL<Request, Response>> | EventIQL<Event, RequestIQL<Request, Response>>) {
         super(iq);
-        this.success = false;
-        this.status = 500;
-        this.event = iq.event;
-        this.version = iq.version;
-        this.message = null;
-        this.translations = null;
-        this.response = null;
+        this.data.success = false;
+        this.data.status = 500;
+        this.data.message = null;
+        this.data.translations = null;
+        this.data.response = null;
     }
 
 
     public setSuccess(response: Response, message?: string) {
-        this.success = true;
-        this.status = 200;
-        this.response = response;
-        this.message = message || MessageCodes.SUCCESS.translations.en;
-        this.translations = {
+        this.data.success = true;
+        this.data.status = 200;
+        this.data.response = response;
+        this.data.message = message || MessageCodes.SUCCESS.translations.en;
+        this.data.translations = {
             code: MessageCodes.SUCCESS.code,
             messages: MessageCodes.SUCCESS.translations,
         };
     }
 
     public setFailure(localize: LocalizeError, error?: {
-        type: ErrorType,
+        type: string | ErrorType,
         data?: any,
     }) {
-        this.success = false;
-        this.status = localize.status;
-        this.message = localize.message;
-        this.translations = {
+        this.data.success = false;
+        this.data.status = localize.status;
+        this.data.message = localize.message;
+        this.data.translations = {
             code: localize.code,
             messages: localize.translations,
         };
-        this.error = {
+        this.data.error = {
             type: ErrorType.LocalizeError,
         };
         if (error) {
-            this.error = error;
+            this.data.error = error;
         }
     }
 
-
+    public getIql(): EventIQL<Event, ResponseIQL<Request, Response>> {
+        let iq = {
+            id: this.id,
+            source: this.source,
+            type: this.type,
+            data: this.data,
+            datacontenttype: this.datacontenttype,
+            dataschema: this.dataschema,
+            specversion: this.specversion,
+            subject: this.subject,
+            time: this.time,
+            data_base64: this.data_base64
+        };
+        return iq;
+    }
 }

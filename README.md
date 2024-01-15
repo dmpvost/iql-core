@@ -1,2 +1,3 @@
-# iql-core
+# IQL-Core
+
 Interface Query Language
