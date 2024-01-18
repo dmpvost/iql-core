@@ -17,10 +17,6 @@
   "license": "ISC",
   "languageName": "node",
   "packageManager": "yarn@4.0.2",
-  "os": [
-    "linux",
-    "darwin"
-  ],
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
@@ -35,10 +31,6 @@
     "npm": {
       "publish": false
     }
-  },
-  "engines": {
-    "node": "18.16.0",
-    "yarn": "4.0.2"
   },
   "repository": {
     "type": "git",
