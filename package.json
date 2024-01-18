@@ -1,6 +1,6 @@
 {
   "name": "iql-core",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Interface Query Language",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
