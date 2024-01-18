@@ -5,6 +5,16 @@ import {HttpCode, Localized} from "./models";
 
 export interface RequestIQL<Request, Response> {
     /**
+     * Source origin of the request
+     */
+    source?: number;
+    /**
+     * If you want to get the request on the response,
+     * activate this property to get it back.
+     * It can be useful for debugging, on multi-source/destination sockets.
+     */
+    request_back?: boolean;
+    /**
      * client API version
      */
     version?: string;
@@ -12,10 +22,6 @@ export interface RequestIQL<Request, Response> {
      * Request data
      */
     request: Request;
-    /**
-     * Source origin of the request
-     */
-    source?: number;
 }
 
 /**
