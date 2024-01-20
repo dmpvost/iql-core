@@ -1,6 +1,6 @@
 {
   "name": "iql-core",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Interface Query Language",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,7 +11,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc -p .",
     "test": "jest --config jest.config.js -u",
-    "publish": "npm version patch && yarn build && npm publish"
+    "publish": "npm version patch && yarn build && yarn npm publish"
   },
   "author": "Vincent Ostermann",
   "license": "ISC",
