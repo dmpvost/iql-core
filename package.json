@@ -11,7 +11,9 @@
   "scripts": {
     "build": "rm -rf dist && tsc -p .",
     "test": "jest --config jest.config.js -u",
-    "publish:dry": "npm version patch && yarn build && npm publish"
+    "preversion": "echo \"npm test\"",
+    "postversion": "npm publish",
+    "postpublish": "git push origin --all; git push origin --tags"
   },
   "author": "Vincent Ostermann",
   "license": "ISC",
