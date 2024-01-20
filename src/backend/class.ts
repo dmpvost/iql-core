@@ -34,8 +34,9 @@ export class EventIQLClass<Event extends string, DataIQL> implements EventIQL<Ev
 export class RequestIQLClass<Event extends string, Request, Response>
     extends EventIQLClass<Event, ResponseIQL<Request, Response>> {
 
-    constructor(iq: EventIQL<Event, RequestIQL<Request, Response>>) {
+    constructor(iq: EventIQL<Event, RequestIQL<Request, Response>>, request_back: boolean = false) {
         super(iq as unknown as EventIQL<Event, ResponseIQL<Request, Response>>);
+        this.data.request_back = request_back;
     }
 
     public getResponseIQL(): ResponseIQLClass<Event, Request, Response> {
@@ -66,8 +67,9 @@ export class RequestIQLClass<Event extends string, Request, Response>
 export class ResponseIQLClass<Event extends string, Request, Response>
     extends RequestIQLClass<Event, Request, Response> {
 
-    constructor(iq: EventIQL<Event, ResponseIQL<Request, Response>> | EventIQL<Event, RequestIQL<Request, Response>>) {
+    constructor(iq: EventIQL<Event, ResponseIQL<Request, Response>> | EventIQL<Event, RequestIQL<Request, Response>>, request_back: boolean = false) {
         super(iq);
+        this.data.request_back = request_back;
         this.data.success = false;
         this.data.status = 500;
         this.data.message = "";
