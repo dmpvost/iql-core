@@ -11,7 +11,7 @@
   "scripts": {
     "build": "rm -rf dist && tsc -p .",
     "test": "jest --config jest.config.js -u",
-    "preversion": "echo \"npm test\"",
+    "preversion": "npm run build",
     "postversion": "npm publish",
     "postpublish": "git push origin --all; git push origin --tags"
   },

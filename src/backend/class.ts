@@ -14,7 +14,7 @@ export class EventIQLClass<Event extends string, DataIQL> implements EventIQL<Ev
     specversion: "1.0";
     subject: Event;
     time?: string | undefined;
-    data_base64?: unknown;
+    data_base64?: string;
 
     constructor(iq: EventIQL<Event, DataIQL>) {
         this.datacontenttype = iq.datacontenttype;
