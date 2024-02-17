@@ -36,7 +36,9 @@ export class RequestIQLClass<Event extends string, Request, Response>
 
     constructor(iq: EventIQL<Event, RequestIQL<Request, Response>>, request_back: boolean = false) {
         super(iq as unknown as EventIQL<Event, ResponseIQL<Request, Response>>);
-        this.data.request_back = request_back;
+        if (this.data.request_back === undefined || this.data.request_back === null) {
+            this.data.request_back = request_back || false;
+        }
     }
 
     public getResponseIQL(): ResponseIQLClass<Event, Request, Response> {
@@ -69,7 +71,9 @@ export class ResponseIQLClass<Event extends string, Request, Response>
 
     constructor(iq: EventIQL<Event, ResponseIQL<Request, Response>> | EventIQL<Event, RequestIQL<Request, Response>>, request_back: boolean = false) {
         super(iq);
-        this.data.request_back = request_back;
+        if (this.data.request_back === undefined || this.data.request_back === null) {
+            this.data.request_back = request_back;
+        }
         this.data.success = false;
         this.data.status = 500;
         this.data.message = "";
@@ -89,6 +93,11 @@ export class ResponseIQLClass<Event extends string, Request, Response>
             code: MessageCodes.SUCCESS.code,
             messages: MessageCodes.SUCCESS.translations,
         };
+        if (!this?.data?.request_back) {
+            // @ts-ignore
+            delete this.data.request;
+            delete this.data.request_back;
+        }
     }
 
     public setFailure(localize: LocalizeError, error?: {
@@ -107,6 +116,11 @@ export class ResponseIQLClass<Event extends string, Request, Response>
         };
         if (error) {
             this.data.error = error;
+        }
+        if (!this?.data?.request_back) {
+            // @ts-ignore
+            delete this.data.request;
+            delete this.data.request_back;
         }
     }
 
