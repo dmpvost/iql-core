@@ -43,16 +43,7 @@ export enum ResponseTypeIQL {
     REPLY_BROADCAST = "REPLY_BROADCAST"
 }
 
-// Utility type that excludes index signatures
-// It preserves only properties whose keys are known (not index signatures)
-export type ExcludeIndexSignature<T> = {
-    [K in keyof T as string extends K ? never : number extends K ? never : K]: T[K]
-};
-
-// Use the utility type to create a new type without the index signature
-export type CloudEvent<DataIQL> = ExcludeIndexSignature<CloudEventV1<DataIQL>>;
-
-export interface EventIQL<EventIQL extends string, DataIQL> extends CloudEvent<DataIQL>{
+export interface EventIQL<EventIQL extends string, DataIQL> {
     /**
      * [REQUIRED] Identifies the event. Producers MUST ensure that `source` + `id`
      * is unique for each distinct event. If a duplicate event is re-sent (e.g. due
