@@ -44,7 +44,7 @@ export enum ResponseTypeIQL {
 }
 
 
-export interface EventIQL<EventIQL extends string, DataIQL> {
+export interface EventIQL<EventIQL extends string, DataIQL> extends CloudEventV1<DataIQL>{
     /**
      * [REQUIRED] Identifies the event. Producers MUST ensure that `source` + `id`
      * is unique for each distinct event. If a duplicate event is re-sent (e.g. due
@@ -128,5 +128,5 @@ export interface EventIQL<EventIQL extends string, DataIQL> {
      */
     data: DataIQL;
 
-    data_base64?: unknown;
+    data_base64?: string;
 }
