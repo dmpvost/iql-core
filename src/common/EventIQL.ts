@@ -36,6 +36,7 @@ export enum Origin {
 export type NetworkOrigin = `${Origin}:${Network}`;
 
 
+
 export enum ResponseTypeIQL {
     NO_REPLY = "NO_REPLY", // Backend will not reply
     REPLY_TO_SOURCE = "REPLY_TO_SOURCE", // Backend reply only on this socket
@@ -101,8 +102,8 @@ export interface EventIQL<EventIQL extends string, DataIQL> {
      * events.
      *
      * If present, MUST be a non-empty string.
-     * @example "https://example.com/storage/tenant/container"
-     * @example "mynewfile.jpg"
+     * @example "PING"
+     * @example "AUTH_LOGIN"
      */
     subject: EventIQL;
     /**
@@ -122,6 +123,10 @@ export interface EventIQL<EventIQL extends string, DataIQL> {
      * SpecVersion
      */
     specversion: "1.0",
+    /**
+     * Packet id of the transaction for the backend
+     */
+    packet?: string;
     /**
      * DATA
      */

@@ -15,6 +15,7 @@ export class EventIQLClass<Event extends string, DataIQL> implements EventIQL<Ev
     subject: Event;
     time?: string | undefined;
     data_base64?: string;
+    packet?: string;
 
     constructor(iq: EventIQL<Event, DataIQL>) {
         this.datacontenttype = iq.datacontenttype;
@@ -27,6 +28,7 @@ export class EventIQLClass<Event extends string, DataIQL> implements EventIQL<Ev
         this.data = iq.data as DataIQL;
         this.time = iq.time;
         this.data_base64 = iq.data_base64;
+        this.packet = iq.packet;
     }
 }
 
@@ -57,7 +59,8 @@ export class RequestIQLClass<Event extends string, Request, Response>
             specversion: this.specversion,
             subject: this.subject,
             time: this.time,
-            data_base64: this.data_base64
+            data_base64: this.data_base64,
+            packet: this.packet
         };
         return iq;
     }
@@ -81,6 +84,7 @@ export class ResponseIQLClass<Event extends string, Request, Response>
             code: MessageCodes.ERROR.code,
             messages: MessageCodes.ERROR.translations,
         };
+        this.packet = iq.packet;
     }
 
 
@@ -135,7 +139,8 @@ export class ResponseIQLClass<Event extends string, Request, Response>
             specversion: this.specversion,
             subject: this.subject,
             time: this.time,
-            data_base64: this.data_base64
+            data_base64: this.data_base64,
+            packet: this.packet
         };
         return iq;
     }
