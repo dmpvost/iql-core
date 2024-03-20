@@ -1,7 +1,7 @@
 /**
- * List of ErrorType catch by the API
+ * List of ApiErrorType catch by the API
  */
-export enum ErrorType {
+export enum ApiErrorType {
     Unknown = "Unknown",
     /**
      * SQL Error
@@ -25,28 +25,28 @@ export enum ErrorType {
 /**
  * Type for unique message ID
  */
-export type CodeM = string;
+export type ApiCodeM = string;
 
 /**
  * Different langage supported
  */
-export type LanguageCode = "en" | "fr";
+export type ApiLanguageCode = "en" | "fr";
 
 
-export type LangMessages = {
-    [lang in LanguageCode]: string;
+export type ApiLangMessages = {
+    [lang in ApiLanguageCode]: string;
 };
 
-export interface Localized {
-    code: CodeM;
-    messages: LangMessages;
+export interface ApiLocalized {
+    code: ApiCodeM;
+    messages: ApiLangMessages;
 }
 
 
 /**
  * Http Code response
  */
-export enum HttpCode {
+export enum ApiHttpCode {
     OK = 200,
     Created = 201,
     NoContent = 204,
@@ -62,7 +62,7 @@ export enum HttpCode {
 }
 
 
-export enum Severity {
+export enum ApiSeverity {
     FATAL = "FATAL",
     ERROR = "ERROR",
     WARNING = "WARNING",
@@ -72,7 +72,7 @@ export enum Severity {
 
 
 export class MessageTranslation {
-    constructor(public code: CodeM, public translations: LangMessages) {
+    constructor(public code: ApiCodeM, public translations: ApiLangMessages) {
     }
 
     private toString() {
@@ -83,18 +83,18 @@ export class MessageTranslation {
 
 export class LocalizeError extends Error {
 
-    public status: HttpCode;
-    public code: CodeM;
-    public type: ErrorType = ErrorType.LocalizeError;
+    public status: ApiHttpCode;
+    public code: ApiCodeM;
+    public type: ApiErrorType = ApiErrorType.LocalizeError;
     public message: string;
-    public translations: LangMessages;
-    public severity: Severity;
+    public translations: ApiLangMessages;
+    public severity: ApiSeverity;
 
     constructor(
-        status: HttpCode,
+        status: ApiHttpCode,
         codeError: MessageTranslation,
         message: string = "",
-        severity: Severity = Severity.ERROR,
+        severity: ApiSeverity = ApiSeverity.ERROR,
     ) {
         //logger.debug("LocalizeError begin");
         super(codeError?.code?.toString());

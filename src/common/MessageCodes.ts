@@ -1,7 +1,7 @@
-import {CodeM, LangMessages} from "./models";
+import {ApiCodeM, ApiLangMessages} from "./models";
 
 export class MessageTranslation {
-    constructor(public code: CodeM, public translations: LangMessages) {
+    constructor(public code: ApiCodeM, public translations: ApiLangMessages) {
     }
 
     private toString() {

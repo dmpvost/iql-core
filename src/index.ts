@@ -1,7 +1,7 @@
 export {RequestIQL, ResponseIQL} from './common/IQL';
-export {Network, Origin, EventIQL, NetworkOrigin, ResponseTypeIQL,} from './common/EventIQL';
+export {ApiNetwork, ApiOrigin, EventIQL, ApiNetworkOrigin, ResponseTypeIQL,} from './common/EventIQL';
 export {
-    CodeM, LangMessages, LanguageCode, HttpCode, MessageTranslation, Localized, LocalizeError, Severity, ErrorType
+    ApiCodeM, ApiLangMessages, ApiLanguageCode, ApiHttpCode, MessageTranslation, ApiLocalized, LocalizeError, ApiSeverity, ApiErrorType
 } from './common/models'
 
 export {EventIQLClass,ResponseIQLClass,RequestIQLClass} from './backend/class'

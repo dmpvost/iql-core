@@ -54,7 +54,7 @@
 //             password: ""
 //         },
 //         success: true,
-//         status: HttpCode.Created,
+//         status: ApiHttpCode.Created,
 //         message: "",
 //         translations: {
 //             code: "",

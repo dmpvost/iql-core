@@ -295,10 +295,10 @@ include:
 - `EventIQL<DataIQL>`: Core structure of EventIQL, containing essential fields:
    - `id`: Unique identifier for each event.
    - `type`: `ResponseTypeIQL` Describes the event type, useful for routing and policy enforcement.
-   - `source`: `NetworkOrigin` Identifies the context of the event. Combines `Origin` and `Network` for a comprehensive
+   - `source`: `ApiNetworkOrigin` Identifies the context of the event. Combines `ApiOrigin` and `ApiNetwork` for a comprehensive
      identifier.
-      - `Network`: Defines the network used to transport the IQ (e.g., REST, SOCKET).
-      - `Origin`: Indicates the origin of the IQ creation (e.g., WEB, MOBILE, BACKEND).
+      - `ApiNetwork`: Defines the network used to transport the IQ (e.g., REST, SOCKET).
+      - `ApiOrigin`: Indicates the origin of the IQ creation (e.g., WEB, MOBILE, BACKEND).
    - `subject`: `EventIQL` : EventName = Further describes the event subject within the producer's context.
    - `datacontenttype`: Indicates the content type of the data (e.g., application/json).
    - `time?`: Timestamp of event creation.
@@ -323,7 +323,7 @@ This layer focuses on standardizing the handling of requests and responses in RE
 - `status`: HTTP code indicating the response status.
 - `success`: Boolean status of the IQ.
 - `message`: Developer message for debugging.
-- `translations`: Localized messages for user display.
+- `translations`: ApiLocalized messages for user display.
 - `response`: The response data.
 - `error`: Additional error information, including type and data.
 
@@ -348,7 +348,7 @@ classDiagram
     class CloudEvent {
         +String id
         +ResponseTypeIQL type
-        +NetworkOrigin source
+        +ApiNetworkOrigin source
         +String subject
         +String datacontenttype
         +String time?
@@ -372,7 +372,7 @@ classDiagram
         +int status
         +boolean success
         +String message
-        +Localized translations
+        +ApiLocalized translations
         +BusinessDataRequest request
         +ErrorInformation error
     }
@@ -435,7 +435,7 @@ classDiagram
     class EventIQL {
         +String id
         +String type
-        +NetworkOrigin source
+        +ApiNetworkOrigin source
         +String subject
         +String datacontenttype
         +String specversion
@@ -573,7 +573,7 @@ of the Interface Query Language (IQL) layers.
         "success": true, // ResponseIQL: Indicates successful processing of the request
         "status": 200, // ResponseIQL: HTTP status code of the response
         "message": "OK", // ResponseIQL: Status message
-        "translations": { ... }, // ResponseIQL: Localized response messages
+        "translations": { ... }, // ResponseIQL: ApiLocalized response messages
         "response": { // ResponseIQL: The main response data containing user details
             "users": [
                 // Array of user objects (UserPublic) based on the 'extend' configuration in the request

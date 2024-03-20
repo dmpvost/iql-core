@@ -1,12 +1,12 @@
-import {EventIQL, NetworkOrigin, ResponseTypeIQL} from "../common/EventIQL";
+import {EventIQL, ApiNetworkOrigin, ResponseTypeIQL} from "../common/EventIQL";
 import {RequestIQL, ResponseIQL} from "../common/IQL";
-import {ErrorType, LocalizeError} from "../common/models";
+import {ApiErrorType, LocalizeError} from "../common/models";
 import {MessageCodes} from "../common/MessageCodes";
 
 // @ts-ignore: IGNORE: [key: string]: unknown;
 export class EventIQLClass<Event extends string, DataIQL> implements EventIQL<Event, DataIQL> {
     id: string;
-    source: NetworkOrigin;
+    source: ApiNetworkOrigin;
     type: ResponseTypeIQL;
     data: DataIQL;
     datacontenttype: "application/json";
@@ -105,7 +105,7 @@ export class ResponseIQLClass<Event extends string, Request, Response>
     }
 
     public setFailure(localize: LocalizeError, error?: {
-        type: string | ErrorType,
+        type: string | ApiErrorType,
         data?: any,
     }) {
         this.data.success = false;
@@ -116,7 +116,7 @@ export class ResponseIQLClass<Event extends string, Request, Response>
             messages: localize.translations,
         };
         this.data.error = {
-            type: ErrorType.LocalizeError,
+            type: ApiErrorType.LocalizeError,
         };
         if (error) {
             this.data.error = error;

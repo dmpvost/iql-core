@@ -1,7 +1,7 @@
 /**
  * IQ, an innovative protocol for backend development in Express, is designed to simplify and standardize the handling of requests and responses in applications that use both REST and SOCKET networks. It acts as a "data router", processing and modifying requests before redirecting them. Each instance of IQ is treated as a unique packet, encapsulating request and response data.
  */
-import {HttpCode, Localized} from "./models";
+import {ApiHttpCode, ApiLocalized} from "./models";
 
 export interface RequestIQL<Request, Response> {
     /**
@@ -24,7 +24,7 @@ export interface RequestIQL<Request, Response> {
  * IQ, an innovative protocol for backend development in Express, is designed to simplify and standardize the handling of requests and responses in applications that use both REST and SOCKET networks. It acts as a "data router", processing and modifying requests before redirecting them. Each instance of IQ is treated as a unique packet, encapsulating request and response data.
  */
 export interface ResponseIQL<Request, Response> extends RequestIQL<Request,Response> {
-    status: HttpCode;
+    status: ApiHttpCode;
     /**
      * Status of the IQ
      */
@@ -36,7 +36,7 @@ export interface ResponseIQL<Request, Response> extends RequestIQL<Request,Respo
     /**
      * Translation message to display to the user
      */
-    translations?: Localized;
+    translations?: ApiLocalized;
     /**
      * Response data
      */
