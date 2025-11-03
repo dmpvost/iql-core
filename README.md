@@ -24,6 +24,7 @@
    - [5.2. User Example with IQL](#52-user-example-with-iql)
       - [5.2.1 User API Request Object Breakdown for User Search](#521-user-api-request-object-breakdown-for-user-search)
       - [5.2.2 Backend Response for User Search](#522-backend-response-for-user-search)
+   - [5.3. Login Example](#53-login-example)
 
 # 1. Backend Evolution
 
@@ -610,3 +611,74 @@ of the Interface Query Language (IQL) layers.
 - Response Payload: The response object within the data field includes the actual data being returned - in this case, an
   array of UserPublic objects and pagination details. This part of the response directly reflects the extend
   configuration from the request, showing how the data was tailored according to the request parameters.
+
+## 5.3. Login Example
+
+This example documents the authentication flow leveraged by IQL when a client performs a login action. The request and
+response both reuse the CloudEvent envelope while relying on the `NetworkIQL`, `RequestIQL` and `ResponseIQL` building
+blocks.
+
+### Login Request Object
+
+```
+{
+    "id": "01HY2S06TR00M6PFZP8GRPJC6D", // CloudEvent: ULID generated for traceability
+    "source": "WEB:REST",               // CloudEvent: Origin of the event
+    "type": "REPLY_TO_SOURCE",          // CloudEvent: Response should follow the original channel
+    "subject": "ACTION_LOGIN",          // EventIQL: Identifies the authentication action
+    "dataschema": "login",              // EventIQL: Schema reference used server-side
+    "datacontenttype": "application/json",
+    "specversion": "1.0",
+    "data": {
+        "version": "1",                 // NetworkIQL: Versioning for compatibility
+        "event": "ACTION_LOGIN",        // NetworkIQL: Mirrors the subject for routing
+        "request": {                    // RequestIQL<Login>
+            "email": "user@example.com",
+            "password": "secret"
+        }
+    }
+}
+```
+
+### Successful Login Response
+
+```
+{
+    "id": "01HY2S06TR00M6PFZP8GRPJC6D",
+    "source": "WEB:REST",
+    "type": "REPLY_TO_SOURCE",
+    "subject": "ACTION_LOGIN",
+    "dataschema": "login",
+    "datacontenttype": "application/json",
+    "specversion": "1.0",
+    "data": {
+        "version": "1",
+        "event": "ACTION_LOGIN",
+        "request": {
+            "email": "user@example.com",
+            "password": "secret"
+        },
+        "success": true,
+        "status": 201,                  // ApiHttpCode.Created
+        "message": "Created",
+        "translations": {
+            "code": "AUTH_LOGIN_SUCCESS",
+            "messages": {
+                "en": "Access granted.",
+                "fr": "Connexion réussie."
+            }
+        },
+        "response": {                   // ResponseIQL<Login, LoginSuccess>
+            "accessToken": "jwt-access-token",
+            "refreshToken": "jwt-refresh-token"
+        }
+    }
+}
+```
+
+### Failure Handling
+
+When credentials are invalid, the server returns the same envelope with `success` set to `false`, `status` typically
+mapped to `ApiHttpCode.Unauthorized (401)`, and a localized error message such as the one defined in
+`src/common/MessageCodes.ts:79`. Consumers should rely on the `translations` field to present the error in the user's
+preferred language.
